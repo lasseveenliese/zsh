@@ -1,0 +1,24 @@
+# ~/.zshrc – schlanke Hauptdatei
+# - Lädt lokale Overrides (~/.zshrc.local)
+# - Lagert eigentliche Konfiguration in ~/.zshrc.d/* aus
+
+export ZSH_CONFIG_DIR="$HOME/.zshrc.d"
+
+# Lokale Geheimnisse und Overrides (früh)
+[ -r "$HOME/.zshrc.local" ] && source "$HOME/.zshrc.local"
+
+# Modularisierte Konfiguration in definierter Reihenfolge
+for file in \
+  "00-env.zsh" \
+  "05-colors.zsh" \
+  "10-paths.zsh" \
+  "20-completion.zsh" \
+  "30-aliases.zsh" \
+  "40-functions.zsh" \
+  "50-plugins.zsh"
+do
+  [ -r "$ZSH_CONFIG_DIR/$file" ] && source "$ZSH_CONFIG_DIR/$file"
+done
+
+# Prompt zuletzt initialisieren
+eval "$(starship init zsh)"
